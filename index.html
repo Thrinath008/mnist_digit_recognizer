@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Digit Recognizer</title>
+</head>
+<body>
+    <h1>Digit Recognizer</h1>
+
+    <input type="file" id="fileInput" accept="image/*">
+    <button onclick="predictDigit()">Predict</button>
+
+    <p id="result"></p>
+
+    <script>
+        async function predictDigit() {
+            const fileInput = document.getElementById("fileInput");
+            if (!fileInput.files.length) {
+                alert("Please upload an image.");
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append("image", fileInput.files[0]);
+
+            const response = await fetch("http://127.0.0.1:8000/predict", {
+                method: "POST",
+                body: formData
+            });
+
+            const result = await response.json();
+            document.getElementById("result").textContent = "Predicted Digit: " + result.predicted_digit;
+        }
+    </script>
+</body>
+</html>
