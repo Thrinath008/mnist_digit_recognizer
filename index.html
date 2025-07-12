@@ -1,16 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Digit Recognizer</title>
+    <link rel="stylesheet" href="index.css">
 </head>
+
 <body>
-    <h1>Digit Recognizer</h1>
+    <div class="main-div">
+        <h1>Digit Recognizer</h1>
 
-    <input type="file" id="fileInput" accept="image/*">
-    <button onclick="predictDigit()">Predict</button>
+        <div class="container">
+            <div class="folder">
+                <div class="top"></div>
+                <div class="bottom"></div>
+            </div>
+            <label class="custom-file-upload">
+                <input id="fileInput" type="file" accept="image/*" />
+                Choose a file
+            </label>
+            <img id="preview" src="" alt="Image Preview" style="margin-top: 15px; max-width: 200px; display: none; border-radius: 8px;" />
+        </div>
+        <button onclick="predictDigit()">
+            <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none"
+                stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
+                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+            </svg> Predict
+        </button>
 
-    <p id="result"></p>
+        <p id="result" style="font-size: 1.5em; font-weight: bold;"></p>
+    </div>
 
     <script>
         async function predictDigit() {
@@ -31,6 +51,26 @@
             const result = await response.json();
             document.getElementById("result").textContent = "Predicted Digit: " + result.predicted_digit;
         }
-    </script>
+</script>
+<script>
+    const fileInput = document.getElementById("fileInput");
+    const preview = document.getElementById("preview");
+
+    fileInput.addEventListener("change", function () {
+        const file = fileInput.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                preview.src = e.target.result;
+                preview.style.display = "block";
+            };
+            reader.readAsDataURL(file);
+        } else {
+            preview.src = "";
+            preview.style.display = "none";
+        }
+    });
+</script>
 </body>
+
 </html>
