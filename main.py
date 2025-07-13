@@ -17,7 +17,7 @@ app.add_middleware(
 )
 
 # Load your trained model
-model = load_model("digit_recognizer_model.h5")
+model = load_model("digit_recognizer_model.keras")
 
 @app.post("/predict")
 async def predict_digit(image: UploadFile = File(...)):
